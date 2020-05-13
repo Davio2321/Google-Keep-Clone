@@ -1,7 +1,13 @@
 class App {
   constructor() {
-    console.log('app works!')
+
+    this.addEventListeners();
   }
-}
+
+  addEventListeners() {
+    document.body.addEventListener('click', event => {
+      this.handleFormClick(event);
+    });
+  
 
 new App()
