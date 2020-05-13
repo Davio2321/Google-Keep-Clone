@@ -3,7 +3,8 @@ class App {
     // following are references to html elements, noted by $
     this.$form = document.querySelector('#form');
     this.$noteTitle = document.querySelector('#note-title');
-    this.$formButtons = document.querySelector('#form-buttons')
+    this.$formButtons = document.querySelector('#form-buttons');
+    this.$noteText = document.querySelector('#note-text');
     this.addEventListeners(); /*Calls the addEventListener function when the app opens*/
   }
 
@@ -41,7 +42,16 @@ class App {
 
   handleSubmit(event) {
     event.preventDefault();
+    const title = this.$noteTitle.value
+    const text = this.$noteText.value
+    const completeNote = title || text; /*Will check to see if the note has a title or text before adding*/
+    if (completeNote) {
+      addNote();
+    }
+  }
 
+  addNote() {
+    
   }
 }
 new App()
