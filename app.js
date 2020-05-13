@@ -1,5 +1,7 @@
 class App {
   constructor() {
+    this.notes = [];
+
     // following are references to html elements, noted by $
     this.$form = document.querySelector('#form');
     this.$noteTitle = document.querySelector('#note-title');
@@ -46,12 +48,19 @@ class App {
     const text = this.$noteText.value
     const completeNote = title || text; /*Will check to see if the note has a title or text before adding*/
     if (completeNote) {
-      addNote();
+      this.addNote({ title, text });
     }
   }
 
-  addNote() {
-    
+  addNote(note) {
+    const newNote = {
+      title: note.title,
+      text: note.text,
+      color: 'white',
+      id: this.notes.length > 0 ? this.notes[this.notes.length - 1].id + 1 : 1
+    };
+    this.notes = [...this.notes, newNote];
+    console.log(this.notes);
   }
 }
 new App()
