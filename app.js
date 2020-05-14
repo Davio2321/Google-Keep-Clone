@@ -28,7 +28,7 @@ class App {
     if (isFormClicked) {
       this.openForm();
     } else {
-      this.closeform();
+      this.closeForm();
     }
   }
 
@@ -38,7 +38,7 @@ class App {
     this.$formButtons.style.display = 'block';
   }
 
-  closeform() {
+  closeForm() {
     this.$form.classList.remove('form-open');
     this.$noteTitle.style.display = 'none';
     this.$formButtons.style.display = 'none';
@@ -63,6 +63,8 @@ class App {
     };
     this.notes = [...this.notes, newNote]; /*Updates the notes array with all the previous notes and adds the newNote*/
     this.displayNotes(); /*Call the displayNotes function to display them on the page*/
+    this.closeForm();
+    this.clearForm();
   }
 
   displayNotes() {
@@ -83,8 +85,9 @@ class App {
     `).join(""); /*Keeps the elements from being separated by a ' on the screen'*/
   }
 
-  // clearForm() {
-  //
-  // }
+  clearForm() {
+    this.$noteTitle.value = '';
+    this.$noteText.value = '';
+  }
 }
 new App()
