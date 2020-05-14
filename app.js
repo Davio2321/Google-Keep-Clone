@@ -9,7 +9,8 @@ class App {
     this.$noteText = document.querySelector('#note-text');
     this.$placeholder = document.querySelector('#placeholder');
     this.$notes = document.querySelector('#notes');
-    this.$formCloseButton = document.querySelector('#form-close-button')
+    this.$formCloseButton = document.querySelector('#form-close-button');
+    this.$modal = document.querySelector('.modal');
     this.addEventListeners(); /*Calls the addEventListener function when the app opens*/
   }
 
@@ -17,6 +18,7 @@ class App {
     document.body.addEventListener('click', event => { /*add click events to document body*/
       this.handleFormClick(event);
       this.handleFormClose(event);
+      this.openModal(event);
     });
 
     this.$form.addEventListener('submit', event =>{ /*add submit event to the form*/
@@ -26,7 +28,6 @@ class App {
   }
 
   handleFormClick(event) { /*Will open the form if the click event contains the form or close if outside */
-    console.log("run");
     const isFormClicked = this.$form.contains(event.target);
     if (isFormClicked) {
       this.openForm();
@@ -40,6 +41,13 @@ class App {
     if (isCloseClicked) {
       this.closeForm();
       this.clearForm();
+    }
+  }
+
+  openModal(event) {
+    const isNoteClicked = event.target.closest('.note');
+    if (isNoteClicked) {
+      this.$modal.classList.toggle('open-modal');
     }
   }
 
