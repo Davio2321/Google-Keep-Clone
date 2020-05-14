@@ -9,12 +9,14 @@ class App {
     this.$noteText = document.querySelector('#note-text');
     this.$placeholder = document.querySelector('#placeholder');
     this.$notes = document.querySelector('#notes');
+    this.$formCloseButton = document.querySelector('#form-close-button')
     this.addEventListeners(); /*Calls the addEventListener function when the app opens*/
   }
 
   addEventListeners() {
     document.body.addEventListener('click', event => { /*add click events to document body*/
       this.handleFormClick(event);
+      this.handleFormClose(event);
     });
 
     this.$form.addEventListener('submit', event =>{ /*add submit event to the form*/
@@ -24,11 +26,20 @@ class App {
   }
 
   handleFormClick(event) { /*Will open the form if the click event contains the form or close if outside */
+    console.log("run");
     const isFormClicked = this.$form.contains(event.target);
     if (isFormClicked) {
       this.openForm();
     } else {
       this.closeForm();
+    }
+  }
+
+  handleFormClose(event) {
+    const isCloseClicked = this.$formCloseButton.contains(event.target);
+    if (isCloseClicked) {
+      this.closeForm();
+      this.clearForm();
     }
   }
 
