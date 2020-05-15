@@ -17,6 +17,7 @@ class App {
     this.$modal = document.querySelector('.modal');
     this.$modalTitle = document.querySelector('.modal-title')
     this.$modalText = document.querySelector('.modal-text')
+    this.$modalCloseButton = document.querySelector('.modal-close-button');
     this.addEventListeners(); /*Calls the addEventListener function when the app opens*/
   }
 
@@ -30,6 +31,10 @@ class App {
 
     this.$form.addEventListener('submit', event =>{ /*add submit event to the form*/
       this.handleSubmit(event);
+    })
+
+    this.$modalCloseButton.addEventListener('click', event => {
+      this.closeModal(event);
     })
 
   }
@@ -69,6 +74,10 @@ class App {
       this.$modalTitle.value = this.title;
       this.$modalText.value = this.text;
     } else return;
+  }
+
+  closeModal(event) {
+    this.$modal.classList.toggle('open-modal');
   }
 
   openForm() {
