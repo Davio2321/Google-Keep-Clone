@@ -1,6 +1,10 @@
 class App {
   constructor() {
     this.notes = []; /*an array of the stored notes*/
+    this.title = '';
+    this.text = '';
+    this.id = '';
+
 
     // following are references to html elements, noted by $
     this.$form = document.querySelector('#form');
@@ -11,6 +15,8 @@ class App {
     this.$notes = document.querySelector('#notes');
     this.$formCloseButton = document.querySelector('#form-close-button');
     this.$modal = document.querySelector('.modal');
+    this.$modalTitle = document.querySelector('.modal-title')
+    this.$modalText = document.querySelector('.modal-text')
     this.addEventListeners(); /*Calls the addEventListener function when the app opens*/
   }
 
@@ -18,6 +24,7 @@ class App {
     document.body.addEventListener('click', event => { /*add click events to document body*/
       this.handleFormClick(event);
       this.handleFormClose(event);
+      this.selectNote(event);
       this.openModal(event);
     });
 
@@ -44,11 +51,24 @@ class App {
     }
   }
 
+  selectNote(event) {
+    const $selectedNote = event.target.closest('.note'); /*the closest() method starts at the current elem and travels up the DOM until it finds the provided selector string*/
+    if(!$selectedNote) return;
+    // children property returns an HTMLCollection, an array like list. Note: cannot map() or filter() over this. Then use array destructering to get the title and text element
+    const [$noteTitle, $noteText] = $selectedNote.children;
+    // Put these values into vars held in the constructor so the whole app can access them
+    this.title = $noteTitle.innerText;
+    this.text = $noteText.innerText;
+    this.id = $selectedNote.dataset.id; /*dataset is a way to store single, read-only data on the html*/
+  }
+
   openModal(event) {
     const isNoteClicked = event.target.closest('.note');
     if (isNoteClicked) {
       this.$modal.classList.toggle('open-modal');
-    }
+      this.$modalTitle.value = this.title;
+      this.$modalText.value = this.text;
+    } else return;
   }
 
   openForm() {
@@ -91,7 +111,7 @@ class App {
     this.$placeholder.style.display = hasNotes ? 'none' : 'flex';
     // Below, maps over the notes array, creating the HTML necessary to display each, and adds it to the notes element in the HTML file.
     this.$notes.innerHTML = this.notes.map(note => `
-      <div style="background: ${note.color};" class="note">
+      <div style="background: ${note.color};" class="note" data-id="${note.id}">
           <div class="${note.title && 'note-title'}">${note.title}</div>
           <div class="note-text">${note.text}</div>
           <div class="toolbar-container">
