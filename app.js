@@ -77,6 +77,7 @@ class App {
   }
 
   closeModal(event) {
+    this.editNote();
     this.$modal.classList.toggle('open-modal');
   }
 
@@ -113,6 +114,18 @@ class App {
     this.displayNotes(); /*Call the displayNotes function to display them on the page*/
     this.closeForm();
     this.clearForm();
+  }
+
+  editNote() {
+    const title = this.$modalTitle.value;
+    const text = this.$modalText.value;
+    this.notes = this.notes.map(note => {
+      if (note.id === Number(this.id)) {
+        note = { ...note, title, text }
+      }
+      return note;
+    });
+    this.displayNotes();
   }
 
   displayNotes() {
