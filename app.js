@@ -94,7 +94,7 @@ class App {
   }
 
   openModal(event) {
-    if (event.target.matches('.toolbar-delete')) return;  
+    if (event.target.matches('.toolbar-delete')) return;
     const isNoteClicked = event.target.closest('.note');
     if (isNoteClicked) {
       this.$modal.classList.toggle('open-modal');
@@ -153,7 +153,7 @@ class App {
       id: this.notes.length > 0 ? this.notes[this.notes.length - 1].id + 1 : 1
     };
     this.notes = [...this.notes, newNote]; /*Updates the notes array with all the previous notes and adds the newNote*/
-    this.displayNotes(); /*Call the displayNotes function to display them on the page*/
+    this.render(); /*Call the displayNotes function to display them on the page*/
     this.closeForm();
     this.clearForm();
   }
@@ -167,7 +167,7 @@ class App {
       }
       return note;
     });
-    this.displayNotes();
+    this.render();
   }
 
   editNoteColor(color) {
@@ -177,7 +177,7 @@ class App {
       }
       return note;
     });
-    this.displayNotes();
+    this.render();
   }
 
   deleteNote(event) {
@@ -185,7 +185,15 @@ class App {
     if (!event.target.matches('.toolbar-delete')) return;
     const id = event.target.closest('.note').dataset.id;
     this.notes = this.notes.filter(note => note.id !== Number(id));
+    this.render();
+  }
+
+  render() {
+    this.saveNotes();
     this.displayNotes();
+  }
+  saveNotes() {
+    localStorage.setItem('notes', JSON.stringify(this.notes)) /*with a Key/value pair, value has to be a string*/
   }
 
   displayNotes() {
