@@ -29,6 +29,7 @@ class App {
       this.handleFormClose(event);
       this.selectNote(event);
       this.openModal(event);
+      this.deleteNote(event);
     });
 
     document.body.addEventListener('mouseover', event => {
@@ -93,6 +94,7 @@ class App {
   }
 
   openModal(event) {
+    if (event.target.matches('.toolbar-delete')) return;  
     const isNoteClicked = event.target.closest('.note');
     if (isNoteClicked) {
       this.$modal.classList.toggle('open-modal');
@@ -175,6 +177,14 @@ class App {
       }
       return note;
     });
+    this.displayNotes();
+  }
+
+  deleteNote(event) {
+    event.stopPropagation();
+    if (!event.target.matches('.toolbar-delete')) return;
+    const id = event.target.closest('.note').dataset.id;
+    this.notes = this.notes.filter(note => note.id !== Number(id));
     this.displayNotes();
   }
 
