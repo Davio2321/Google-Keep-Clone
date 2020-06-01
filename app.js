@@ -47,6 +47,13 @@ class App {
       this.style.display = 'none';
    })
 
+   this.$colorToolTip.addEventListener('click', event => {
+      const color = event.target.dataset.color;
+      if (color) {
+        this.editNoteColor(color);
+      }
+   })
+
     this.$form.addEventListener('submit', event =>{ /*add submit event to the form*/
       this.handleSubmit(event);
     });
@@ -155,6 +162,16 @@ class App {
     this.notes = this.notes.map(note => {
       if (note.id === Number(this.id)) {
         note = { ...note, title, text }
+      }
+      return note;
+    });
+    this.displayNotes();
+  }
+
+  editNoteColor(color) {
+    this.notes = this.notes.map(note => {
+      if (note.id === Number(this.id)) {
+        note = { ...note, color }
       }
       return note;
     });
