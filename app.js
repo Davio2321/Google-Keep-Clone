@@ -18,6 +18,8 @@ class App {
     this.$modalTitle = document.querySelector('.modal-title')
     this.$modalText = document.querySelector('.modal-text')
     this.$modalCloseButton = document.querySelector('.modal-close-button');
+    this.$colorToolTip = document.querySelector('#color-tooltip');
+
     this.addEventListeners(); /*Calls the addEventListener function when the app opens*/
   }
 
@@ -29,13 +31,29 @@ class App {
       this.openModal(event);
     });
 
+    document.body.addEventListener('mouseover', event => {
+      this.openToolTip(event);
+    });
+
+    document.body.addEventListener('mouseout', event => {
+      this.closeToolTip(event);
+    })
+
+    this.$colorToolTip.addEventListener('mouseover', function() {
+     this.style.display = 'flex';
+   })
+
+   this.$colorToolTip.addEventListener('mouseout', function() {
+      this.style.display = 'none';
+   })
+
     this.$form.addEventListener('submit', event =>{ /*add submit event to the form*/
       this.handleSubmit(event);
-    })
+    });
 
     this.$modalCloseButton.addEventListener('click', event => {
       this.closeModal(event);
-    })
+    });
 
   }
 
@@ -79,6 +97,21 @@ class App {
   closeModal(event) {
     this.editNote();
     this.$modal.classList.toggle('open-modal');
+  }
+
+  openToolTip(event) {
+    if (!event.target.matches('.toolbar-color')) return;
+    this.id = event.target.closest('.note').dataset.id;
+    const noteCoords = event.target.getBoundingClientRect();
+    const horizontal = noteCoords.left + window.scrollX;
+    const vertical = noteCoords.top + window.scrollY;
+    this.$colorToolTip.style.transform = `translate(${horizontal}px, ${vertical}px)`;
+    this.$colorToolTip.style.display = 'flex';
+  };
+
+  closeToolTip(event) {
+    if (!event.target.matches('.toolbar-color')) return;
+    this.$colorToolTip.style.display = 'none';
   }
 
   openForm() {
