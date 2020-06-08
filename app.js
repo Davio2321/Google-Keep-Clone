@@ -1,6 +1,6 @@
 class App {
   constructor() {
-    this.notes = []; /*an array of the stored notes*/
+    this.notes = JSON.parse(localStorage.getItem('notes')) || []; /*an array of the stored notes*/
     this.title = '';
     this.text = '';
     this.id = '';
@@ -20,6 +20,7 @@ class App {
     this.$modalCloseButton = document.querySelector('.modal-close-button');
     this.$colorToolTip = document.querySelector('#color-tooltip');
 
+    this.render(); /*both saves notes to local storage and displays notes. Called here to display notes on opening the page.*/
     this.addEventListeners(); /*Calls the addEventListener function when the app opens*/
   }
 
